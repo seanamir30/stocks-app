@@ -1,8 +1,9 @@
-class UsersController < ApplicationController
-    # before_action :authenticate_user!
+class AdminController < ApplicationController
+    # Checks if user is admin
+    before_action :is_admin
 
     def index
-        @users = User.all
+        @users = User.where(admin: false)
     end
 
     def show
@@ -27,5 +28,13 @@ class UsersController < ApplicationController
         def user_params
             params.require(:user).permit(:email, :password, :first_name, :last_name, :balance)
         end
-    end
+
+        def is_admin
+            if authenticate_user! && current_user.admin
+                return true
+            else
+                redirect_to root_path
+            end
+        end
+        
 end
