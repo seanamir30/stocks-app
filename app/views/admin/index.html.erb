@@ -1,0 +1,8 @@
+<nav>
+    <%= link_to 'Logout',destroy_user_session_path, method: :delete %> 
+</nav>
+
+Users:
+<% @users.each do |user|%>
+    <%= user.email %>
+<%end%>
