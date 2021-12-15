@@ -47,8 +47,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
     def authorize_admin
-      return unless !current_user.admin?
-      redirect_to root_path, alert: 'Admins only!'
+      redirect_to root_path, alert: 'Admins only!' if current_user && !current_user.admin?
     end
 
   # If you have extra params to permit, append them to the sanitizer.
