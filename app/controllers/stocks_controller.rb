@@ -4,8 +4,12 @@ class StocksController < ApplicationController
 #   include StocksHelper
 
   def index
-    @user_stocks = Stock.all
-   
+    # @user_stocks = Stock.all
+    @client = IEX::Api::Client.new(
+              publishable_token: 'Tsk_c5fd71d3eb484338a6820af892063bf7',
+              secret_token: 'Tpk_5f449b7e58fa4bd58a68ff4ee81ec7ba',
+              endpoint: 'https://sandbox.iexapis.com/v1'
+    )
   end
 
 #   def new
