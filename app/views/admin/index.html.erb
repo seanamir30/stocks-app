@@ -5,5 +5,11 @@
 
 Users:
 <% @users.each do |user|%>
-    <%= user.email %>
+    <p>
+    Email: <%= user.email %>
+    Fullname: <%= user.full_name %> 
+    <%= link_to 'show', admin_path(user) ,class:"text-blue-500" %>
+    <%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %>
+    </p>
+    
 <%end%>
