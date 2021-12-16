@@ -4,6 +4,12 @@ class AdminController < ApplicationController
 
     def index
         @users = User.where(admin: false)
+        @unapproved_users = User.where(is_approved: false, admin: false)
+    end
+
+    def approve
+        @user = User.find(params[:id]).update(is_approved:true)
+        redirect_to admin_index_path
     end
 
     def new
