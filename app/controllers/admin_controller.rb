@@ -9,6 +9,7 @@ class AdminController < ApplicationController
 
     def approve
         @user = User.find(params[:id]).update(is_approved:true)
+        ApprovalMailer.with(user: User.find(params[:id])).welcome_email.deliver_now
         redirect_to admin_index_path
     end
 
@@ -18,14 +19,14 @@ class AdminController < ApplicationController
 
     def create
         @user = User.new(user_params)
+        @user.skip_confirmation!
             if @user.save
                 redirect_to admin_index_path
-                # redirect_to @category
-                flash[:notice] = "Category was successfully created."
+                flash[:notice] = "User was successfully created."
             else
                 render :new
             end
-      end
+    end
 
     def show
         @user = User.find(params[:id])

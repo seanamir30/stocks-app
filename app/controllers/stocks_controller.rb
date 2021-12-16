@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-#     before_action :authenticate_user!
+#   before_action :authenticate_user!
 #   before_action :find_stock, only: %i[edit update destroy]
 #   include StocksHelper
 

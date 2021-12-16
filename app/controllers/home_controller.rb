@@ -1,6 +1,13 @@
 class HomeController < ApplicationController
     before_action :check_if_admin
     def index
+        @balance = current_user.balance
+    end
+
+
+    def cash_in
+        
+
     end
 
     private
