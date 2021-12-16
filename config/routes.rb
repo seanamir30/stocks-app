@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :admin
   resources :stocks
 
-  post 'create_user' => 'admin#create', as: :create_user   
+  post 'create_user' => 'admin#create', as: :create_user
+  get 'approve_user/:id' => 'admin#approve', as: :approve_user
 end

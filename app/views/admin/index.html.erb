@@ -3,6 +3,17 @@
     <%= link_to 'Add User', new_user_registration_path %>
 </nav>
 
+Unapproved Users:
+<% @unapproved_users.each do |user| %>
+    <p>
+    Email: <%= user.email %>
+    Fullname: <%= user.full_name %> 
+    <%= link_to 'show', admin_path(user) ,class:"text-blue-500" %>
+    <%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %>
+    <%= link_to 'approve', approve_user_path(user), class:"text-yellow-500" %>
+    </p>
+<%end%>
+
 Users:
 <% @users.each do |user|%>
     <p>
