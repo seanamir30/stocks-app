@@ -7,5 +7,7 @@ Rails.application.routes.draw do
 
   post 'create_user' => 'admin#create', as: :create_user
   get 'approve_user/:id' => 'admin#approve', as: :approve_user
-  post 'cash_in' => 'home#cash_in', as: :cash_in
+  post 'cash_in' => 'stocks#cash_in', as: :cash_in
+  get 'payment' => 'stocks#payment', as: :payment
+  post 'add_stock' => 'stocks#add_stock', as: :add_stock
 end
