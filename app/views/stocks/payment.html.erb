@@ -1,0 +1,11 @@
+<%= @current_user.balance%>
+<%= form_with url: cash_in_path do |f| %>
+    <div class="field">
+        <%= f.label :amount %><br />
+        <%= f.number_field :amount, autofocus: true %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Add'%>
+    </div>
+<% end %>

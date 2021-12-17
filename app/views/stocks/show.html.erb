@@ -1,0 +1,11 @@
+<%= @latest_price %>
+<%= @company_name %>
+<%= @company_symbol %>
+<%= @company_market_cap %>
+
+<%= form_with url: add_stock_path  do |f| %>
+    <%= f.hidden_field :id, :value => @company_symbol %>
+    <%=f.label :shares%>
+    <%=f.number_field :shares %>
+    <%= f.submit %>
+<% end %>

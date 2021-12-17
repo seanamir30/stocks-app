@@ -31,7 +31,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'factory_bot_rails'
 gem 'faker'
-
+gem 'daru-view', git: 'https://github.com/SciRuby/daru-view'
 gem 'iex-ruby-client'
 
 group :development, :test do

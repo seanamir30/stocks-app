@@ -1,6 +1,17 @@
 STOCKS
-
-<%= @client.price('GOOG') %>
+<br>
+<br>
+<%@top_10_stocks.each do |stock|%>
+    <%= link_to stock_path(stock.symbol) do%>
+        <%= stock.symbol %>
+        <%= stock.company_name %>
+        <%= stock.latest_price %>
+        <%= stock.change_percent_s %>
+        <%= stock.avg_total_volume %>
+        <%= stock.market_cap %>
+    <%end%>
+    <br>
+<%end%>
 
 
    

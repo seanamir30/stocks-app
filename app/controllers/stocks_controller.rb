@@ -3,71 +3,69 @@ class StocksController < ApplicationController
 #   before_action :find_stock, only: %i[edit update destroy]
 #   include StocksHelper
 
+  
   def index
     # @user_stocks = Stock.all
-    @client = IEX::Api::Client.new(
-              publishable_token: 'Tsk_c5fd71d3eb484338a6820af892063bf7',
-              secret_token: 'Tpk_5f449b7e58fa4bd58a68ff4ee81ec7ba',
-              endpoint: 'https://sandbox.iexapis.com/v1'
-    )
+
+    @top_10_stocks = Stock.iex_api.stock_market_list(:mostactive)
+
+    @all_stocks = Stock.iex_api.ref_data_symbols()
   end
 
-#   def new
-#     @stock = current_user.stocks.build
-#   end
+  def show
+    @latest_price = Stock.iex_api.price(params[:id])
+    @company_name = Stock.iex_api.company(params[:id]).company_name
+    @company_symbol = params[:id]
+    @company_market_cap = Stock.iex_api.key_stats(params[:id]).market_cap_dollar
+  end
 
-#   def create
-#     @stock = current_user.stocks.build(stock_params)
+  def payment
+    if current_user
+      @current_user = current_user
+    end
+  end
 
-#     begin
-#       @stock_name = Stock.iex_api.quote(session[:symbol]).company_name
-#       @stock_price = Stock.iex_api.quote(session[:symbol]).latest_price
-#       @stock.update(name: @stock_name, unit_price: @stock_price)
-#     rescue StandardError
-#       nil
-#     end
+  def buy_stocks
+    @user = current_user
+    @user.balance -= Stock.iex_api.price(params[:id])
+    @user.save
+    @stock = Stock.new
+  end
 
-#     respond_to do |format|
-#       if @stock.save
-#         session[:symbol] = ''
-#         format.html { redirect_to stocks_market_path, notice: 'Stock was successfully added.' }
-#         format.json { render :index, status: :created, location: @stock }
-#       else
-#         format.html { render :new, status: :unprocessable_entity }
-#         format.json { render json: @stock.errors, status: :unprocessable_entity }
-#       end
-#     end
-#   end
+  def add_stock
+    stock = Stock.where(user_id:current_user.id, name: params[:id])
+    if stock.any?
+      share = stock.first.shares
+      stock.update(shares: share += params[:shares].to_i)
+    else
+      new_stock = Stock.new(
+        name: params[:id],
+        shares: params[:shares].to_i,
+        user_id: current_user.id
+      )
 
-#   def edit; end
+      new_stock.save
+    end
+    # @stock = Stock.new(
+    #   name: Stock.iex_api.company(params[:id]).company_name,
+    #   unit_price: Stock.iex_api.price(params[:id]) * params[:shares].to_i,
+    #   shares: params[:shares].to_i,
+    #   user_id: current_user.id
+    # )
+    redirect_to stock_path(params[:id])
+  end
 
-#   def update
-#     respond_to do |format|
-#       if @stock.update(stock_params)
-#         format.html { redirect_to stocks_market_path, notice: 'Stock was successfully updated.' }
-#         format.json { render :index, status: :ok, location: @stock }
-#       else
-#         format.html { render :edit }
-#         format.json { render json: @stock.errors, status: :unprocessable_entity }
-#       end
-#     end
-#   end
+  def cash_in
+    @user = current_user
+    @user.balance += params[:amount].to_i
+    @user.save
+    redirect_to payment_path
+  end
 
-#   def destroy
-#     @stock.destroy
-#     respond_to do |format|
-#       format.html { redirect_to stocks_market_path, notice: 'Stock was successfully deleted.' }
-#     end
-#   end
+  private
+  def stock_params
+    params.require(:stock).permit(:name, :unit_price, :shares, :user_id)
+  end
 
-#   private
-
-#   def find_stock
-#     @stock = Stock.find(params[:id])
-#   end
-
-#   def stock_params
-#     params.require(:stock).permit(:name, :unit_price, :shares)
-#   end
 
 end
