@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   post 'cash_in' => 'stocks#cash_in', as: :cash_in
   get 'payment' => 'stocks#payment', as: :payment
   post 'add_stock' => 'stocks#add_stock', as: :add_stock
+  post 'sell_stock'=> 'stocks#sell_stock', as: :sell_stock
+  get 'portfolio' => 'user#portfolio', as: :portfolio
 end

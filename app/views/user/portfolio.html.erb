@@ -1,0 +1,12 @@
+PORTFOLIO
+<%= @total %>
+<br>
+<% @stocks.each do |stock| %>
+    <%= stock.name %>
+    <%= Stock.iex_api.price(stock.name) * stock.shares %>
+    <%= stock.shares %>
+
+    <%= link_to 'Trade', stock_path(stock.name) %>
+   
+<br>
+<% end %>

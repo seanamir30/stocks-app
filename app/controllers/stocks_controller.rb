@@ -17,6 +17,14 @@ class StocksController < ApplicationController
     @company_name = Stock.iex_api.company(params[:id]).company_name
     @company_symbol = params[:id]
     @company_market_cap = Stock.iex_api.key_stats(params[:id]).market_cap_dollar
+    @action = 'buy'
+    shares = Stock.find_by(user_id:current_user.id, name:params[:id])
+      if shares
+        @shares = shares.shares
+      else
+        @shares = 0
+      end
+    @trading_history = TradingHistory.where(user_id:current_user.id)
   end
 
   def payment
@@ -26,32 +34,48 @@ class StocksController < ApplicationController
   end
 
   def buy_stocks
-    @user = current_user
-    @user.balance -= Stock.iex_api.price(params[:id])
-    @user.save
     @stock = Stock.new
   end
 
   def add_stock
-    stock = Stock.where(user_id:current_user.id, name: params[:id])
-    if stock.any?
-      share = stock.first.shares
+    stock = Stock.find_by(user_id:current_user.id, name: params[:id])
+  
+    if stock && current_user.balance >= Stock.iex_api.price(params[:id])
+      share = stock.shares
+      current_user.balance -= Stock.iex_api.price(params[:id])
       stock.update(shares: share += params[:shares].to_i)
-    else
+    elsif current_user.balance >= Stock.iex_api.price(params[:id])
+      current_user.balance -= Stock.iex_api.price(params[:id])
       new_stock = Stock.new(
         name: params[:id],
         shares: params[:shares].to_i,
         user_id: current_user.id
       )
-
       new_stock.save
     end
+    current_user.save
+
+
+    save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'buy', current_user.id, stock.id)
+
     # @stock = Stock.new(
     #   name: Stock.iex_api.company(params[:id]).company_name,
     #   unit_price: Stock.iex_api.price(params[:id]) * params[:shares].to_i,
     #   shares: params[:shares].to_i,
     #   user_id: current_user.id
     # )
+    redirect_to stock_path(params[:id])
+
+  end
+
+  def sell_stock
+    stock = Stock.find_by(user_id:current_user.id, name: params[:id])
+    if stock && stock.shares >= params[:shares].to_i
+      share = stock.shares
+      stock.update(shares: share -= params[:shares].to_i)
+      save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'sell', current_user.id, stock.id)
+    end
+    
     redirect_to stock_path(params[:id])
   end
 
@@ -62,10 +86,27 @@ class StocksController < ApplicationController
     redirect_to payment_path
   end
 
-  private
-  def stock_params
-    params.require(:stock).permit(:name, :unit_price, :shares, :user_id)
+  def save_to_history(name, unit_price, shares, transaction_type,user_id,stock_id)
+    trading_history = TradingHistory.new(
+      name: name,
+      unit_price: unit_price,
+      shares:shares,
+      user_id:user_id,
+      transaction_type:transaction_type,
+      stock_id:stock_id
+    )
+    trading_history.save 
   end
+
+  
+  
+
+  private
+    def stock_params
+      params.require(:stock).permit(:name, :unit_price, :shares, :user_id)
+    end
+
+    
 
 
 end
