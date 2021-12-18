@@ -3,9 +3,24 @@
 <%= @company_symbol %>
 <%= @company_market_cap %>
 
-<%= form_with url: add_stock_path  do |f| %>
-    <%= f.hidden_field :id, :value => @company_symbol %>
-    <%=f.label :shares%>
-    <%=f.number_field :shares %>
-    <%= f.submit %>
+<br>
+
+<%= current_user.balance %>
+<%= render 'buy' %>
+
+<%= @shares %>
+<%= render 'sell' %>
+
+
+
+TRADING HISTORY
+<br>
+<% @trading_history.each do |history| %>
+    <%= history.name %>
+    <%= history.transaction_type %>
+    <%= history.shares %>
+    <%= history.unit_price %>
+    <%= history.created_at.strftime("%m-%d-%y %H:%M") %>
+    <br>
 <% end %>
+

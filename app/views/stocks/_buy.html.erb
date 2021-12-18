@@ -1,0 +1,6 @@
+<%= form_with url: add_stock_path  do |f| %>
+    <%= f.hidden_field :id, :value => @company_symbol %>
+    <%=f.label :shares%>
+    <%=f.number_field :shares %>
+    <%= f.submit 'buy' %>
+<% end %>
