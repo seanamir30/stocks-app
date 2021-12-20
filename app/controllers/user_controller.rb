@@ -1,6 +1,16 @@
 class UserController < ApplicationController
-    def portfolio
-        @stocks = Stock.where(user_id: current_user.id)
+    
+    def portfolio 
+           
+        if params[:symbol] && params[:symbol] != ""
+            @stocks = Stock.where(user_id: current_user.id, name:params[:symbol])
+            if @stocks == []
+                @stocks = Stock.where(user_id: current_user.id)
+            end
+        else 
+            @stocks = Stock.where(user_id: current_user.id)
+        end
+
         @balance = current_user.balance
         total_balance = @balance
 

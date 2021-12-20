@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'
   resources :admin
-  resources :stocks
+  resources :stocks, :except => [:create]
 
   post 'create_user' => 'admin#create', as: :create_user
   get 'approve_user/:id' => 'admin#approve', as: :approve_user
@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   post 'add_stock' => 'stocks#add_stock', as: :add_stock
   post 'sell_stock'=> 'stocks#sell_stock', as: :sell_stock
   get 'portfolio' => 'user#portfolio', as: :portfolio
+  post 'search' => 'stocks#search', as: :search
 end

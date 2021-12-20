@@ -3,13 +3,23 @@ class StocksController < ApplicationController
 #   before_action :find_stock, only: %i[edit update destroy]
 #   include StocksHelper
 
-  
   def index
     # @user_stocks = Stock.all
-
     @top_10_stocks = Stock.iex_api.stock_market_list(:mostactive)
-
     @all_stocks = Stock.iex_api.ref_data_symbols()
+  end
+
+  def search
+    # SEARCH BAR
+    if params[:symbol]
+      @stock_search = Stock.iex_api.quote(params[:symbol])
+      
+      if @stock_search
+        redirect_to stock_path(params[:symbol]) 
+        
+      end
+
+    end
   end
 
   def show
@@ -98,15 +108,16 @@ class StocksController < ApplicationController
     trading_history.save 
   end
 
-  
-  
+  # def search
+  #   @stock_lookup = Stock.lookup(params[:symbol])
+  # end
+   
 
   private
     def stock_params
       params.require(:stock).permit(:name, :unit_price, :shares, :user_id)
     end
 
+
     
-
-
 end
