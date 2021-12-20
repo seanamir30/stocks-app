@@ -9,13 +9,15 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import  "../application.css";
 
-
+global.toastr = require("toastr")
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
 require("packs/dropdown.js")
+
+
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets

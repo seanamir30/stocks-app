@@ -49,32 +49,28 @@ class StocksController < ApplicationController
 
   def add_stock
     stock = Stock.find_by(user_id:current_user.id, name: params[:id])
-  
-    if stock && current_user.balance >= Stock.iex_api.price(params[:id])
-      share = stock.shares
-      current_user.balance -= Stock.iex_api.price(params[:id])
-      stock.update(shares: share += params[:shares].to_i)
-    elsif current_user.balance >= Stock.iex_api.price(params[:id])
-      current_user.balance -= Stock.iex_api.price(params[:id])
-      new_stock = Stock.new(
-        name: params[:id],
-        shares: params[:shares].to_i,
-        user_id: current_user.id
-      )
-      new_stock.save
+    
+    respond_to do |format|
+      if stock && current_user.balance >= Stock.iex_api.price(params[:id])*params[:shares].to_i
+        share = stock.shares
+        current_user.balance -= Stock.iex_api.price(params[:id])*params[:shares].to_i
+        stock.update(shares: share += params[:shares].to_i)
+      elsif current_user.balance >= Stock.iex_api.price(params[:id])
+        current_user.balance -= Stock.iex_api.price(params[:id])
+        new_stock = Stock.new(
+          name: params[:id],
+          shares: params[:shares].to_i,
+          user_id: current_user.id
+        )
+        new_stock.save
+
+      else
+        format.html{redirect_to stock_path(params[:id]), alert: "Insufficient funds!"}
+      end
+      current_user.save
+      save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'buy', current_user.id, stock.id)
+      format.html{redirect_to stock_path(params[:id]), notice: "Stock order fulfilled!"}
     end
-    current_user.save
-
-
-    save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'buy', current_user.id, stock.id)
-
-    # @stock = Stock.new(
-    #   name: Stock.iex_api.company(params[:id]).company_name,
-    #   unit_price: Stock.iex_api.price(params[:id]) * params[:shares].to_i,
-    #   shares: params[:shares].to_i,
-    #   user_id: current_user.id
-    # )
-    redirect_to stock_path(params[:id])
 
   end
 
