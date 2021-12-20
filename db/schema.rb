@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 2021_12_18_053206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
-    t.integer "unit_price"
+    t.decimal "unit_price", precision: 5, scale: 2
     t.integer "shares"
     t.integer "user_id", null: false
   end
 
   create_table "trading_histories", force: :cascade do |t|
     t.string "name"
-    t.integer "unit_price"
+    t.decimal "unit_price", precision: 5, scale: 2
     t.integer "shares"
     t.integer "user_id"
     t.integer "stock_id"

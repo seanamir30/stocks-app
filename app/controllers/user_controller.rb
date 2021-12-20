@@ -15,7 +15,7 @@ class UserController < ApplicationController
         total_balance = @balance
 
         @stocks.each do |stock|
-            total_balance += Stock.iex_api.price(stock.name) 
+            total_balance += Stock.iex_api.price(stock.name)*stock.shares
         end
 
         @total = total_balance.round(2)
