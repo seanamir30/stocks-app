@@ -14,4 +14,24 @@ STOCKS
 <%end%>
 
 
+<h3>Search for stocks</h3>
+
+<%= form_with url: search_path do |f| %>
+    <div id="myDropdown" class="dropdown-content">
+        <%= f.label :symbol %>
+        <%= f.text_field :symbol, placeholder:"Search..", id:"myInput", onkeyup:"filterFunction()" %>
+        <ul>
+        <% @all_stocks.each do |stock| %>
+            <li onclick="search(this)"><%= stock.symbol %></li>
+        <% end %>
+        </ul>
+
+        <p>
+        <%= f.submit %>
+         </p>
+    </div>
+    
+<% end %> 
+
+
    

@@ -1,12 +1,33 @@
 PORTFOLIO
-<%= @total %>
-<br>
-<% @stocks.each do |stock| %>
-    <%= stock.name %>
-    <%= Stock.iex_api.price(stock.name) * stock.shares %>
-    <%= stock.shares %>
 
-    <%= link_to 'Trade', stock_path(stock.name) %>
-   
-<br>
-<% end %>
+<section id="shares">
+<%= @total %>
+    <% @stocks.each do |stock| %>
+        <%= stock.name %>
+        <%= Stock.iex_api.price(stock.name) * stock.shares %>
+        <%= stock.shares %>
+
+        <%= link_to 'Trade', stock_path(stock.name) %> 
+    <% end %>
+</section>
+
+
+<h3>Search for stocks</h3>
+
+<%= form_with url: portfolio_path ,method: "get" do |f| %>
+    <div id="myDropdown" class="dropdown-content">
+        <%= f.label :symbol %>
+        <%= f.text_field :symbol, placeholder:"Search..", id:"myInput", onkeyup:"filterFunction()" %>
+        <ul>
+        <% @stocks.each do |stock| %>
+            <li onclick="search(this)"><%= stock.name %></li>
+        <% end %>
+        </ul>
+
+        <p>
+        <%= f.submit %>
+         </p>
+    </div>
+    
+<% end %> 
+
