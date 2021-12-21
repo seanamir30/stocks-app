@@ -5,22 +5,35 @@
 
 <br>
 
-<%= current_user.balance.round(2) %>
-<%= render 'buy' %>
+<% if user_signed_in? && current_user.is_approved %>
 
-<%= @shares %>
-<%= render 'sell' %>
+    <%= current_user.balance.round(2) %>
+    <%= render 'buy' %>
 
+    <%= @shares %>
+    <%= render 'sell' %>
 
-
-TRADING HISTORY
-<br>
-<% @trading_history.each do |history| %>
-    <%= history.name %>
-    <%= history.transaction_type %>
-    <%= history.shares %>
-    <%= history.unit_price %>
-    <%= history.created_at.strftime("%m-%d-%y %H:%M") %>
+    TRADING HISTORY
     <br>
+    <% @trading_history.each do |history| %>
+        <%= history.name %>
+        <%= history.transaction_type %>
+        <%= history.shares %>
+        <%= history.unit_price %>
+        <%= history.created_at.strftime("%m-%d-%y %H:%M") %>
+        <br>
+    <% end %>
+
+<% elsif user_signed_in? && !current_user.is_approved %>
+
+    Please wait for admin approval of your account
+
+<% else %>
+    <%= link_to 'Login', new_user_session_path %>
+    <%= link_to 'Signup', new_user_registration_path %>
+
 <% end %>
+
+
+
 

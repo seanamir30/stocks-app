@@ -1,28 +1,49 @@
-<div class="mb-5">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg nav-bg absolute top-0 w-full">
         <div class="container-fluid">
-            <%= link_to 'ACSC Stocks', root_path, class:"navbar-brand"  %>
-            
+            <%= link_to 'ACSC Stocks', root_path, class:"navbar-brand font-bold text-yellow-400 hover:text-yellow-400"  %>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
+                <svg viewBox="0 0 100 80" width="40" height="20" fill="white">
+                    <rect width="100" height="15"></rect>
+                    <rect y="30" width="100" height="15"></rect>
+                    <rect y="60" width="100" height="15"></rect>
+                </svg>
+            </button>
             <div class="collapse navbar-collapse" id="navbar">
-                <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+                
+
                     
                     <% if user_signed_in? %> 
                         <% if current_user.admin %>
-                            <%= link_to 'Add User', new_admin_path, class: "nav-item nav-link" %>
-                        <% else %>
-                            <%= link_to 'Market', stocks_path, class: "nav-item nav-link" %>
-                            <%= link_to 'Portfolio',portfolio_path, class: "nav-item nav-link" %>
-                            <%= link_to 'Cash in', payment_path, class: "nav-item nav-link" %>
-                            <%= link_to "Account Settings", edit_user_registration_path, class: "nav-item nav-link" %>
+                            <div class="navbar-nav">
+                                <%= link_to 'Add User', new_admin_path, class: "nav-item nav-link" %>
+                            </div>
+                            <div class="navbar-nav ms-auto">
+                                <%= link_to 'Logout',destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>
+                            </div>
+                        <% elsif !current_user.admin%>
+                            <div class="navbar-nav">
+                                <%= link_to 'Market', stocks_path, class: "nav-item nav-link" %>
+                                <%= link_to 'Portfolio',portfolio_path, class: "nav-item nav-link" %>
+                                <%= link_to 'Cash in', payment_path, class: "nav-item nav-link" %>
+                            </div>
+                            <div class="navbar-nav ms-auto">
+                                <%= link_to "Account Settings", edit_user_registration_path, class: "nav-item nav-link" %>
+                                <%= link_to 'Logout',destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>
+                            </div>
                         <% end %>
-                        <%= link_to 'Logout',destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>   
                     <% else %>
-                        <%= link_to 'Login',new_user_session_path, class: "nav-item nav-link" %>
-                        <%= link_to 'Signup',new_user_registration_path, class: "nav-item nav-link" %>
+                        <div class="navbar-nav">
+                                <%= link_to 'Market', stocks_path, class: "nav-item nav-link" %>
+                            </div>
+                            <div class="navbar-nav ms-auto">
+                                <%= link_to 'Login',new_user_session_path, class: "nav-item nav-link" %>
+                                <%= link_to 'Signup',new_user_registration_path, class: "nav-item nav-link" %>
+                            </div>
                     <% end %>
-
-                </div>
+                        
+                        
+                
             </div>
         </div>
     </nav>
-</div>
+

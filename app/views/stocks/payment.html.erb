@@ -1,4 +1,4 @@
-<%= @current_user.balance.round(2)%>
+<%= current_user.balance.round(2)%>
 <%= form_with url: cash_in_path do |f| %>
     <div class="field">
         <%= f.label :amount %><br />

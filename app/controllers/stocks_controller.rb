@@ -29,24 +29,34 @@ class StocksController < ApplicationController
   end
 
   def show
+    if current_user && current_user.is_approved && user_signed_in?
+      @trading_history = TradingHistory.where(user_id:current_user.id)
+      shares = Stock.find_by(user_id:current_user.id, name:params[:id])
+      @current_balance = current_user.balance.round(2)
+    end
     @latest_price = Stock.iex_api.price(params[:id])
     @company_name = Stock.iex_api.company(params[:id]).company_name
     @company_symbol = params[:id]
-    @current_balance = current_user.balance.round(2)
+    
     @company_market_cap = Stock.iex_api.key_stats(params[:id]).market_cap_dollar
     @action = 'buy'
-    shares = Stock.find_by(user_id:current_user.id, name:params[:id])
+    
       if shares
         @shares = shares.shares
       else
         @shares = 0
       end
-    @trading_history = TradingHistory.where(user_id:current_user.id)
+    
   end
 
   def payment
-    if current_user
-      @current_user = current_user
+    respond_to do |format|
+      if !user_signed_in?
+        format.html{redirect_to new_user_session_path, alert: "You need to sign in or sign up before continuing."}
+      elsif current_user.admin || !current_user.is_approved
+        format.html{redirect_to root_path}
+      end
+        format.html{}
     end
   end
 
@@ -56,23 +66,25 @@ class StocksController < ApplicationController
 
   def add_stock
     stock = Stock.find_by(user_id:current_user.id, name: params[:id])
+    price = Stock.iex_api.price(params[:id])
+    
     
     respond_to do |format|
-      if stock && current_user.balance >= Stock.iex_api.price(params[:id])*params[:shares].to_i
+      if stock && current_user.balance >= price*params[:shares].to_i
         share = stock.shares
-        current_user.balance -= Stock.iex_api.price(params[:id])*params[:shares].to_i
+        current_user.balance -= price*params[:shares].to_i
         stock.update(shares: share += params[:shares].to_i)
-        save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'buy', current_user.id, stock.id)
+        save_to_history(params[:id],price, params[:shares], 'buy', current_user.id, stock.id)
 
-      elsif current_user.balance >= Stock.iex_api.price(params[:id])*params[:shares].to_i
-        current_user.balance -= Stock.iex_api.price(params[:id])*params[:shares].to_i
+      elsif current_user.balance >= price*params[:shares].to_i
+        current_user.balance -= price*params[:shares].to_i
         new_stock = Stock.new(
           name: params[:id],
           shares: params[:shares].to_i,
           user_id: current_user.id
         )
         new_stock.save
-        save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'buy', current_user.id, stock.id)
+        save_to_history(params[:id],price, params[:shares], 'buy', current_user.id, new_stock.id)
 
       else
         format.html{redirect_to stock_path(params[:id]), alert: "Insufficient funds!"}

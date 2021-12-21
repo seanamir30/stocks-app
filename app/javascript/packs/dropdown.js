@@ -1,4 +1,5 @@
 window.filterFunction = filterFunction;
+window.show = show;
 window.search = search;
 
 function filterFunction() {
@@ -20,4 +21,10 @@ function filterFunction() {
 function search(item){
   document.getElementById("myInput").value = item.innerText;
   console.log(item)
+}
+
+function show(){
+  choices = document.getElementById("choices")
+  choices.classList.toggle("hidden")
+  
 }

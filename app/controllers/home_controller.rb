@@ -2,6 +2,7 @@ class HomeController < ApplicationController
     before_action :check_if_admin
     
     def index
+        @top10 = Stock.iex_api.stock_market_list(:mostactive)
     end
 
 

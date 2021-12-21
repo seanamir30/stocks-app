@@ -10,6 +10,7 @@ class AdminController < ApplicationController
     def approve
         @user = User.find(params[:id]).update(is_approved:true)
         ApprovalMailer.with(user: User.find(params[:id])).welcome_email.deliver_now
+        
         redirect_to admin_index_path
     end
 

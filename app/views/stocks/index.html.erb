@@ -1,37 +1,44 @@
-STOCKS
-<br>
-<br>
-<%@top_10_stocks.each do |stock|%>
-    <%= link_to stock_path(stock.symbol) do%>
-        <%= stock.symbol %>
-        <%= stock.company_name %>
-        <%= stock.latest_price %>
-        <%= stock.change_percent_s %>
-        <%= stock.avg_total_volume %>
-        <%= stock.market_cap %>
-    <%end%>
-    <br>
-<%end%>
 
-
-<h3>Search for stocks</h3>
-
-<%= form_with url: search_path do |f| %>
-    <div id="myDropdown" class="dropdown-content">
-        <%= f.label :symbol %>
-        <%= f.text_field :symbol, placeholder:"Search..", id:"myInput", onkeyup:"filterFunction()" %>
-        <ul>
-        <% @all_stocks.each do |stock| %>
-            <li onclick="search(this)"><%= stock.symbol %></li>
-        <% end %>
-        </ul>
-
-        <p>
-        <%= f.submit %>
-         </p>
+<div class="pt-14"></div>
+<div class="container">
+<div class="flex justify-between">
+    <h2>Markets</h2>
+    <%= form_with url: search_path do |f|%>
+        <div id="myDropdown" class="dropdown-content">
+            <%= f.text_field :symbol, placeholder:"Search Stock Name", id:"myInput", onkeyup:"filterFunction()", onfocus: "show()", onfocusout: "show()" %>
+            <ul id="choices" class="overflow-y overflow-x-hidden max-h-96 absolute w-full hidden">
+            <% @all_stocks.each do |stock| %>
+                <li onclick="search(this)"><%= stock.symbol %></li>
+            <% end %>
+            </ul>   
+            <%= f.submit%>
+        </div>
+        
+    <% end %> 
     </div>
-    
-<% end %> 
 
+    <table class="table">
+        <tr>
+            <th colspan="2">Name</th>
+            <th>Price</th>
+            <th>Change</th>
+            <th>Volume</th>
+            <th>Market Cap</th>
+        </tr>
+    <%@top_10_stocks.each do |stock|%>
+        <% link_to stock_path(stock.symbol) do %>
+            <tr>
+                <td><%= stock.symbol %></td>
+                <td><%= stock.company_name %></td>
+                <td><%= stock.latest_price %></td>
+                <td><%= stock.change_percent_s %></td>
+                <td><%= stock.avg_total_volume %></td>
+                <td><%= stock.market_cap %></td>
+            </tr>
+        <%end%>
+    <%end%>
+
+    </table>
+</div>
 
    
