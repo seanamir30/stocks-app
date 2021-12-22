@@ -1,21 +1,34 @@
-<%= form_for @user, url: edit_admin_path do |f| %>
-   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<div class="bg-gray-900 py-5 vh-100">
+     <section class="container flex justify-content-center align-items-center h-100 w-full"> 
+      <div class="p-5 flex flex-col border border-secondary justify-between bg-gray-900 text-white h-auto w-1/2">  
+          
+          <div>
+            <div class="flex justify-between align-items-center">
+              <h2 class="h3">Edit User Details</h2>
+              <div><%= render partial: "images/male_avatar_svg"%></div> 
+            </div>
+            <%= form_for @user, url: admin_path do |f| %>
+              <div class="mb-4">
+                <%= f.label :email, class:"form-label text-white" %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email" ,class:"form-control"%>
+              </div>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
-  </div>
+              <div class="mb-4">
+                <%= f.label :first_name , class:"form-label  text-white"%><br />
+                <%= f.text_field :first_name ,class:"form-control"%>
+              </div>
 
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
+              <div class="mb-4">
+                <%= f.label :last_name, class:"form-label text-white" %><br />
+                <%= f.text_field :last_name ,class:"form-control"%>
+              </div>
 
-  <div class="actions">
-    <%= f.submit 'Edit' %>
-    <%= link_to 'Cancel', admin_index_path %>
-  </div>
-<% end %>
+              <div class="flex flex justify-center">
+                <%= f.submit 'Update',class:"m-2 btn bg-yellow-400 w-full"%>
+                <%= link_to 'Cancel', :back ,class:"m-2 btn bg-yellow-400 w-full"%>
+              </div>
+            <% end %>
+          </div>
+        </div>
+    </section>
+</div>

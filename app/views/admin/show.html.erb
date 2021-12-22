@@ -1,5 +1,27 @@
-<h1><%= @user.full_name %></h1>
-<h1><%= @user.email %></h1>
-<p>Admin:<%= @user.admin? %></p>
+<div class="bg-gray-900 py-5 vh-100">
+    <section class="container flex justify-content-center align-items-center h-100 w-full">
+        <div class="p-5 flex flex-col border border-secondary justify-between bg-gray-900 text-white h-96 w-1/2"> 
+            <div class="flex justify-between">
+                <div class="card-body flex flex-col justify-items-center">
+                    <h1 class="h1"><%= @user.full_name %></h1>
+                    <h1 class="h3">#<%= sprintf '%08d',  @user.id %></h1>
+                    <h1 class="h5"><%= @user.email %></h1>     
+                </div>
 
-<%= link_to 'edit details', edit_admin_path(@user) %>
+                <div>
+                <%= render partial: "images/admin_show"%>  
+                </div>
+            </div>
+            
+            <div class="flex justify-start">
+                <%= link_to 'Edit details', edit_admin_path(@user),class:"m-2 btn bg-yellow-400" %>
+            </div>     
+        </div>
+
+        <div>
+         <h1 class="absolute bottom-5 left-5 h3 text-yellow-400 hover:text-red-400 animated pulse"> <%= link_to '<< Back', admin_index_path %></h1> 
+        </div>
+    </section>
+</div>
+
+

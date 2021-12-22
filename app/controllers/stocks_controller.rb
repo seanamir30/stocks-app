@@ -5,8 +5,8 @@ class StocksController < ApplicationController
 
   def index
     # @user_stocks = Stock.all
-    @top_10_stocks = Stock.iex_api.stock_market_list(:mostactive)
-    @all_stocks = Stock.iex_api.ref_data_symbols()
+    stocks = Stock.iex_api.ref_data_symbols()
+    @all_stocks = Kaminari.paginate_array(stocks).page(params[:page]).per(10)
   end
 
   def search
@@ -29,6 +29,18 @@ class StocksController < ApplicationController
   end
 
   def show
+    chart = Stock.iex_api.chart(params[:id])
+    index = 0
+    ohlc = []
+    chart.each do |data|
+      candle = [data.date,data.close]
+
+      ohlc.push(candle)
+    end
+
+    @chart_data = ohlc
+
+
     if current_user && current_user.is_approved && user_signed_in?
       @trading_history = TradingHistory.where(user_id:current_user.id)
       shares = Stock.find_by(user_id:current_user.id, name:params[:id])
@@ -99,6 +111,8 @@ class StocksController < ApplicationController
     respond_to do |format|
       stock = Stock.find_by(user_id:current_user.id, name: params[:id])
       if stock && stock.shares >= params[:shares].to_i
+        current_user.balance += Stock.iex_api.price(params[:id]) * params[:shares].to_i
+        current_user.save
         share = stock.shares
         stock.update(shares: share -= params[:shares].to_i)
         save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'sell', current_user.id, stock.id)

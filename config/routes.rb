@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :stocks, :except => [:create]
 
   post 'create_user' => 'admin#create', as: :create_user
+  get 'edit_user/:id' => 'admin#edit', as: :edit_user
   get 'approve_user/:id' => 'admin#approve', as: :approve_user
   post 'cash_in' => 'stocks#cash_in', as: :cash_in
   get 'payment' => 'stocks#payment', as: :payment
