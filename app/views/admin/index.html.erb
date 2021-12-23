@@ -1,26 +1,50 @@
-<nav>
-    <%= link_to 'Logout',destroy_user_session_path, method: :delete %> 
-    <%= link_to 'Add User', new_admin_path %>
-</nav>
+<div class="pt-14 bg-dark text-white vh-100 ">
+    <div class="container flex justify-around  my-8 vw-90 h-5/6">   
+      
+            <div class="w-full mx-4 h-full overflow-auto" >   
+            <h1 class="h3 py-4">Users with pending approval</h1>      
+                <table class="table table-dark ">        
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th colspan="10"></th>
+                    </tr>
+                    
+                    <% @unapproved_users.each do |user| %>
+                    <tr>
+                        <td><%= user.email %></td>
+                        <td><%= user.full_name %> <td>
+                        <td><%= link_to 'show details', admin_path(user) ,class:"text-blue-500" %><td>
+                        <td><%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %><td>
+                        <td><%= link_to 'approve account', approve_user_path(user), class:"text-yellow-500" %><td>
+                    </tr>
+                    <%end%>
+                </table>
+            </div>
 
-Unapproved Users:
-<% @unapproved_users.each do |user| %>
-    <p>
-    Email: <%= user.email %>
-    Fullname: <%= user.full_name %> 
-    <%= link_to 'show', admin_path(user) ,class:"text-blue-500" %>
-    <%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %>
-    <%= link_to 'approve', approve_user_path(user), class:"text-yellow-500" %>
-    </p>
-<%end%>
+            <div class="border border-secondary"></div>
 
-Users:
-<% @users.each do |user|%>
-    <p>
-    Email: <%= user.email %>
-    Fullname: <%= user.full_name %> 
-    <%= link_to 'show', admin_path(user) ,class:"text-blue-500" %>
-    <%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %>
-    </p>
-    
-<%end%>
+            <div class="w-full mx-4 h-full overflow-auto " >
+            <h1 class="h3 py-4">Approved Accounts</h1>   
+                <table class="table table-dark">
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th colspan="10"></th>
+                    </tr>
+                    <tr>
+                    <% @users.each do |user|%>     
+                        <td><%= user.email %></td>
+                        <td><%= user.full_name %> </td>
+                        <td><%= link_to 'show details', admin_path(user) ,class:"text-blue-500" %></td>
+                        <td><%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %></td>
+                        <td></td>
+                    </tr>
+                    <%end%>
+                </table>
+            </div>
+        
+    </div>
+</div>
+
+

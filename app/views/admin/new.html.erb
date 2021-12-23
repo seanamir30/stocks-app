@@ -1,33 +1,56 @@
-<%= form_for @user, url: create_user_path do |f| %>
-   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<div class="bg-gray-900 py-5 vh-100 text-white">
+  <section class="container flex align-items-center justify-evenly h-100">
+    
+      <div>
+        <%= render partial: "images/female_avatar_svg"%>  
+      </div>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name %>
-  </div>
+      <div >
+        <h2 class="h2">Create an Account</h2>
+        <p class="fw-light mb-5">Register with user email</p>
 
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
+        <%= form_for @user, url: create_user_path do |f| %>
+          
+          <div class="mb-3">
+            <%= f.label :email , class:"form-label"%><br />
+            <%= f.email_field :email, autofocus: true,autocomplete: "email", class:"form-control" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+        <div class="flex mb-3">
+          <div class="mr-2">
+            <%= f.label :first_name, class:"form-label" %><br />
+            <%= f.text_field :first_name, class:"form-control" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+          <div>
+            <%= f.label :last_name, class:"form-label" %><br />
+            <%= f.text_field :last_name, class:"form-control" %>
+          </div>
+        </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+          <div class="mb-3">
+            <%= f.label :password, class:"form-label" %>
+            <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :password_confirmation, class:"form-label" %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Create Account", class:"mb-3 btn bg-yellow-400 w-full" %>
+          </div>
+        <% end %>
+      </div> 
+
+      <div>
+         <h1 class="absolute bottom-5 left-5 h3 text-yellow-400 hover:text-red-400 animated pulse"> <%= link_to '<< Back', :back %></h1> 
+      </div>
+
+     
+   </section>
+</div>

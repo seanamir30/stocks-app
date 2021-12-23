@@ -17,11 +17,16 @@
   
 .dropdown-content {
   display: relative;
-  background-color: #f6f6f6;
   min-width: 230px;
   overflow: auto;
   border: 1px solid #ddd;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
   z-index: 1;
+}
+
+.dropdown-content ul {
+  background-color: white;
 }
 
 .dropdown-content li {
@@ -56,4 +61,48 @@
 
 .choices{
   display: hidden;
+}
+
+
+
+.pagination > li > a
+{
+    background-color: white;
+    color: #131720;
+    border: none;
+}
+
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: white;
+    background-color: #5a5a5a;
+    border: none;
+}
+
+.pagination > .active > a
+{
+    font-weight: bold;
+    color: #131720;
+    background-color: #5a5a5a !important;
+    border: none;
+}
+
+.animated {
+  animation-duration: 2.5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.1);}
+  100% {transform: scale(1);}
+}
+.pulse {
+  animation-name: pulse;
+  animation-duration: 1s;
 }

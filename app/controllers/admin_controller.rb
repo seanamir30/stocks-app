@@ -18,6 +18,7 @@ class AdminController < ApplicationController
         @user = User.new
     end
 
+
     def create
         @user = User.new(user_params)
         @user.skip_confirmation!

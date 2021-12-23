@@ -8,6 +8,7 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import  "../application.css";
+import "chartkick/chart.js";
 
 global.toastr = require("toastr")
 
