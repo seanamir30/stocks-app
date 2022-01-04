@@ -17,10 +17,7 @@
     "autoprefixer": "^9.8.8",
     "postcss": "^7.0.39",
     "webpack-dev-server": "^3"
-
   },
   "version": "0.1.0",
-  "devDependencies": {
-    
-  }
+  "devDependencies": {}
 }
