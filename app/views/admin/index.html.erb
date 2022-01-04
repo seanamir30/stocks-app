@@ -14,9 +14,9 @@
                     <tr>
                         <td><%= user.email %></td>
                         <td><%= user.full_name %> <td>
-                        <td><%= link_to 'show details', admin_path(user) ,class:"text-blue-500" %><td>
+                        <td><%= link_to 'details', admin_path(user) ,class:"text-blue-500" %><td>
                         <td><%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %><td>
-                        <td><%= link_to 'approve account', approve_user_path(user), class:"text-yellow-500" %><td>
+                        <td><%= link_to 'approve', approve_user_path(user), class:"text-yellow-500" %><td>
                     </tr>
                     <%end%>
                 </table>
@@ -36,7 +36,7 @@
                     <% @users.each do |user|%>     
                         <td><%= user.email %></td>
                         <td><%= user.full_name %> </td>
-                        <td><%= link_to 'show details', admin_path(user) ,class:"text-blue-500" %></td>
+                        <td><%= link_to 'details', admin_path(user) ,class:"text-blue-500" %></td>
                         <td><%= link_to 'edit', edit_admin_path(user) ,class:"text-green-500" %></td>
                         <td></td>
                     </tr>

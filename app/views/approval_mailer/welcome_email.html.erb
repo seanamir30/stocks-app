@@ -1,1 +1,10 @@
-<h1>WELCOME YOU ARE APPROVED! <%= @user.email%> </h1>
+<div class="bg-dark flex flex-col justify-content-center align-items-center text-white">
+    <h3 class="text-yellow">Welcome to ACSC Stocks!</h3>
+    <p>Dear <%= @user.email%>,</p>
+    <br>
+    <p> Please be informed that your account has been approved by the admin.</p>
+    <p> You can now start your transactions.</p>
+    <br>
+    <p class="fw-light"> This is an automated message. Please do not reply.</p>
+    <p class="italic fw-bold"> ACSC Stocks Team </p>
+</div>

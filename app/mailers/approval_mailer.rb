@@ -3,6 +3,6 @@ class ApprovalMailer < ApplicationMailer
   
     def welcome_email
       @user = params[:user]
-      mail(to: @user.email, subject: 'Welcome to My Awesome Site')
+      mail(to: @user.email, subject: 'Notice of Approval')
     end
 end
