@@ -12,8 +12,12 @@
  *
  */
 
- @import "bootstrap";
- @import "toastr";
+@import "bootstrap";
+@import "toastr";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import "tailwindcss/components";
+@import "toastr";
   
 .dropdown-content {
   display: relative;
