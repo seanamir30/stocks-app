@@ -1,5 +1,5 @@
 <%= form_with class:"input-group", url: sell_stock_path  do |f| %>
     <%= f.hidden_field :id, :value => @company_symbol %>
-    <%=f.number_field :shares ,  placeholder:"Enter number of shares", class:"form-control" %>
+    <%=f.number_field :sell_shares ,  placeholder:"Enter number of shares", class:"form-control" %>
     <%= f.submit 'sell', class:"btn bg-red-500 text-white" %>
 <% end %>

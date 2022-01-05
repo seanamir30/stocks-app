@@ -3,7 +3,7 @@ class AdminController < ApplicationController
     before_action :is_admin
 
     def index
-        @users = User.where(admin: false)
+        @users = User.where(admin: false, is_approved:true)
         @unapproved_users = User.where(is_approved: false, admin: false)
     end
 

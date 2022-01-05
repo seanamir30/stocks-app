@@ -67,4 +67,12 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   FactoryBot.register_strategy(:attr_strat, AttributeStrategy)
+
+end
+
+def login(user)
+  visit user_session_path
+  fill_in('Email', with: user.email)
+  fill_in('Password', with: user.password)
+  click_on('Log in')
 end
