@@ -3,15 +3,16 @@ class AdminController < ApplicationController
     before_action :is_admin
 
     def index
-        @users = User.where(admin: false)
+        @users = User.where(admin: false, is_approved: true)
         @unapproved_users = User.where(is_approved: false, admin: false)
     end
 
     def approve
-        @user = User.find(params[:id]).update(is_approved:true)
-        ApprovalMailer.with(user: User.find(params[:id])).welcome_email.deliver_now
-        
-        redirect_to admin_index_path
+        respond_to do |format|
+            @user = User.find(params[:id]).update(is_approved:true)
+            ApprovalMailer.with(user: User.find(params[:id])).welcome_email.deliver_now
+            format.html{redirect_to admin_index_path}
+        end
     end
 
     def new
