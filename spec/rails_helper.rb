@@ -68,10 +68,20 @@ RSpec.configure do |config|
 
   FactoryBot.register_strategy(:attr_strat, AttributeStrategy)
 
+<<<<<<< HEAD
 end
 
 def login(user)
   visit new_user_session_path
+  fill_in('Email', with: user.email)
+  fill_in('Password', with: user.password)
+  click_on('Log in')
+=======
+>>>>>>> baf69dab29c4757f727be584b34a491898fb7cb2
+end
+
+def login(user)
+  visit user_session_path
   fill_in('Email', with: user.email)
   fill_in('Password', with: user.password)
   click_on('Log in')

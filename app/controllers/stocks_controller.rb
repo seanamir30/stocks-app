@@ -82,21 +82,21 @@ class StocksController < ApplicationController
     
     
     respond_to do |format|
-      if stock && current_user.balance >= price*params[:shares].to_i
+      if stock && current_user.balance >= price*params[:buy_shares].to_i
         share = stock.shares
-        current_user.balance -= price*params[:shares].to_i
-        stock.update(shares: share += params[:shares].to_i)
-        save_to_history(params[:id],price, params[:shares], 'buy', current_user.id, stock.id)
+        current_user.balance -= price*params[:buy_shares].to_i
+        stock.update(shares: share += params[:buy_shares].to_i)
+        save_to_history(params[:id],price, params[:buy_shares], 'buy', current_user.id, stock.id)
 
-      elsif current_user.balance >= price*params[:shares].to_i
-        current_user.balance -= price*params[:shares].to_i
+      elsif current_user.balance >= price*params[:buy_shares].to_i
+        current_user.balance -= price*params[:buy_shares].to_i
         new_stock = Stock.new(
           name: params[:id],
-          shares: params[:shares].to_i,
+          shares: params[:buy_shares].to_i,
           user_id: current_user.id
         )
         new_stock.save
-        save_to_history(params[:id],price, params[:shares], 'buy', current_user.id, new_stock.id)
+        save_to_history(params[:id],price, params[:buy_shares], 'buy', current_user.id, new_stock.id)
 
       else
         format.html{redirect_to stock_path(params[:id]), alert: "Insufficient funds!"}
@@ -110,12 +110,12 @@ class StocksController < ApplicationController
   def sell_stock
     respond_to do |format|
       stock = Stock.find_by(user_id:current_user.id, name: params[:id])
-      if stock && stock.shares >= params[:shares].to_i
-        current_user.balance += Stock.iex_api.price(params[:id]) * params[:shares].to_i
+      if stock && stock.shares >= params[:sell_shares].to_i
+        current_user.balance += Stock.iex_api.price(params[:id]) * params[:sell_shares].to_i
         current_user.save
         share = stock.shares
-        stock.update(shares: share -= params[:shares].to_i)
-        save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:shares], 'sell', current_user.id, stock.id)
+        stock.update(shares: share -= params[:sell_shares].to_i)
+        save_to_history(params[:id],Stock.iex_api.price(params[:id]), params[:sell_shares], 'sell', current_user.id, stock.id)
       else
         format.html{redirect_to stock_path(params[:id]),alert:"Insufficient stocks! "}
 
