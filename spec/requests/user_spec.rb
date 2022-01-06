@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /index" do
-    # pending "add some examples (or delete) #{__FILE__}"
+  describe "GET /portfolio" do
+    it "returns portfolio page" do
+      get portfolio_path
+      expect(response).to have_http_status(302)
+    end
   end
 end

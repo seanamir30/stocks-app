@@ -5,8 +5,8 @@ class StocksController < ApplicationController
 
   def index
     # @user_stocks = Stock.all
-    stocks = Stock.iex_api.ref_data_symbols()
-    @all_stocks = Kaminari.paginate_array(stocks).page(params[:page]).per(10)
+    @stocks = Stock.iex_api.ref_data_symbols()
+    @all_stocks = Kaminari.paginate_array(@stocks).page(params[:page]).per(10)
   end
 
   def search

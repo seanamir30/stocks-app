@@ -65,12 +65,14 @@
             </div>
                         
         <% elsif user_signed_in? && !current_user.is_approved %>
-
-            <h2 class="h2 text-red-400">Please wait for admin approval of your account</h2>
-
+                <h2 class="h2 text-red-400 text-center my-56">Please wait for admin approval of your account</h2>
         <% else %>
-            <%= link_to 'Login', new_user_session_path %>
-            <%= link_to 'Signup', new_user_registration_path %>
+            <div class="flex justify-center items-center my-60">
+                <span>
+                    <%= link_to 'Log In', new_user_session_path, class: "text-yellow-400 hover:text-yellow-500" %> or
+                    <%= link_to 'Register', new_user_registration_path, class: "text-yellow-400 hover:text-yellow-500" %> to trade
+                </span>
+            </div>
         <% end %>
        
 

@@ -7,7 +7,7 @@
             <div class = "flex">  
                 <%= form_with url: portfolio_path ,class:"input-group", method: "get" do |f| %>
                     <div id="myDropdown" class="dropdown-content">
-                        <%= f.text_field :symbol, placeholder:"Search Stock Name", id:"myInput", onkeyup:"filterFunction()", onfocus: "show()", onfocusout: "show()", class:"h-full p-2" %>
+                        <%= f.text_field :symbol, placeholder:"Search Stock Name", id:"myInput", onkeyup:"filterFunction()", onfocus: "show()", onfocusout: "show()", class:"h-full p-2 text-dark", autocomplete:"off" %>
                         <ul id="choices" class="overflow-y overflow-x-hidden max-h-96 absolute w-full hidden">
                             <% @stocks.each do |stock| %>
                                 <li onclick="search(this)"><%= stock.name %></li>

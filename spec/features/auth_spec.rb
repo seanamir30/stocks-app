@@ -14,24 +14,6 @@ RSpec.describe 'Auth', type: :feature do
         user.skip_confirmation!
         user.save
     end
-<<<<<<< HEAD
-    
-
-  
-
-
-    context '1. As a User, I want to create my account so that I can have my own credentials' do
-
-        it 'allows authenticated access' do
-            visit new_user_session_path
-            fill_in('Email', :with => user.email)
-            fill_in('Password', :with => user.password)
-            click_on('Log in')
-            
-            expect(page).to have_current_path(root_path)
-        end
-    end
-=======
 
    
         context '1. As a User, I want to create my account so that I can have my own credentials' do
@@ -95,5 +77,4 @@ RSpec.describe 'Auth', type: :feature do
                 expect(page).to have_current_path user_session_path
             end
         end
->>>>>>> baf69dab29c4757f727be584b34a491898fb7cb2
 end
